@@ -11,7 +11,7 @@ library(ggh4x)
 library(readxl)
 #help(package="ggrastr")
 
-dat<-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/Orthogroups.GeneCount.tsv",
+dat<-read_delim("Orthogroups.GeneCount.tsv",
                 delim = "\t",
                 col_names = TRUE) %>% 
   select(-Total) %>% 
@@ -66,11 +66,11 @@ for(i in 1:sim){
   }
 }
 
-#save(df,file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/df.Rdata")
-# write_delim(dat,file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/matrix01.txt",
+#save(df,file = "df.Rdata")
+# write_delim(dat,file = "matrix01.txt",
 #             delim = "",
 #             col_names = FALSE)
-load("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/df.Rdata")
+load("df.Rdata")
 df %>% 
   select(-samples) %>% 
   pivot_longer(!sampleNum) %>% 
@@ -154,17 +154,17 @@ dat %>% rowSums() %>%
 ## 每个类别里的基因id
 freq.df %>% 
   select(-Total) %>% 
-  left_join(read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/Orthogroups.tsv",
+  left_join(read_delim("Orthogroups.tsv",
                        delim = "\t"),
             by=c("rowname"="Orthogroup")) %>% 
-  rio::export("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/PanGeneFamily_id.xlsx")
+  rio::export("PanGeneFamily_id.xlsx")
 
 freq.df %>% 
   select(-Total) %>% 
-  left_join(read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/Orthogroups.GeneCount.tsv",
+  left_join(read_delim("Orthogroups.GeneCount.tsv",
                        delim = "\t"),
             by=c("rowname"="Orthogroup")) %>% 
-  rio::export("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/PanGeneFamily_genenumber.xlsx")
+  rio::export("PanGeneFamily_genenumber.xlsx")
 
 ### NLR基因数量
 freq.df %>% head()
@@ -251,7 +251,7 @@ p04<-p02+
             aes(x=x,y=y,label=plot),
             vp.width=0.8,vp.height=0.8)
 p04
-pdf(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/plot01_1.pdf",
+pdf(file = "plot01_1.pdf",
     width=12,height = 5)
 p01+p04+
   plot_layout(ncol=2)
@@ -259,7 +259,7 @@ dev.off()
 identical(dat %>% rownames(),
           freq.df$rowname)
 
-tree<-read.tree("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/SpeciesTree_rooted.txt")
+tree<-read.tree("SpeciesTree_rooted.txt")
 ggtree(tree,branch.length = "none")+
   geom_tiplab() -> tree.data
 
@@ -436,7 +436,7 @@ dat.backup %>%
   labs(x=NULL,y=NULL) -> p06
 
 
-pdf(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/plot03_6.pdf",
+pdf(file = "plot03_6.pdf",
     width = 12,height = 4)
 p05_1+plot_spacer()+
   p05+p06+plot_layout(ncol = 2,heights = c(1,20),
@@ -540,28 +540,28 @@ p07.2
 # freq.df %>%
 #   filter(Class=="Core") %>%
 #   pull(rowname) %>%
-#   write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/CoreFamilyId.txt")
+#   write_lines(file = "CoreFamilyId.txt")
 # 
 # freq.df %>%
 #   filter(Class=="SoftCore") %>%
 #   pull(rowname) %>%
-#   write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/SoftCoreFamilyId.txt")
+#   write_lines(file = "SoftCoreFamilyId.txt")
 # 
 # freq.df %>%
 #   filter(Class=="Dispensable") %>%
 #   pull(rowname) %>%
-#   write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/DispensableFamilyId.txt")
+#   write_lines(file = "DispensableFamilyId.txt")
 # 
 # freq.df %>%
 #   filter(Class=="Private") %>%
 #   pull(rowname) %>%
-#   write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/PrivateFamilyId.txt")
+#   write_lines(file = "PrivateFamilyId.txt")
 
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/Orthogroups.tsv",
+read_delim("Orthogroups.tsv",
            delim = "\t") %>% colnames()
 
 ### 挑选核心可变基因去做结构域注释，看不同的比例
-orthogroups<-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/Orthogroups.tsv",
+orthogroups<-read_delim("Orthogroups.tsv",
                         delim = "\t",
                         col_names = TRUE)
 head(orthogroups)
@@ -579,7 +579,7 @@ bind_cols(orthogroups,freq.df) %>%
   pull(value) %>% 
   str_split(pattern = ", ") %>% 
   unlist() %>% 
-  write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allPrivatePepID.txt")
+  write_lines(file = "allPrivatePepID.txt")
 
 
 bind_cols(orthogroups,freq.df) %>% 
@@ -592,7 +592,7 @@ bind_cols(orthogroups,freq.df) %>%
   pull(value) %>% 
   str_split(pattern = ", ") %>% 
   unlist() %>% 
-  write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allDispensableID.txt")
+  write_lines(file = "allDispensableID.txt")
 
 
 bind_cols(orthogroups,freq.df) %>% 
@@ -605,7 +605,7 @@ bind_cols(orthogroups,freq.df) %>%
   pull(value) %>% 
   str_split(pattern = ", ") %>% 
   unlist() %>% 
-  write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allSoftCoreID.txt")
+  write_lines(file = "allSoftCoreID.txt")
 
 bind_cols(orthogroups,freq.df) %>% 
   #mutate(X1=str_count(V127,"mRNA1")) %>% 
@@ -617,7 +617,7 @@ bind_cols(orthogroups,freq.df) %>%
   pull(value) %>% 
   str_split(pattern = ", ") %>% 
   unlist() %>% 
-  write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allCoreID.txt")
+  write_lines(file = "allCoreID.txt")
 
 
 myfun<-function(x){
@@ -630,14 +630,14 @@ list.files("06.emapper.collections/",pattern = "*.annotations",full.names = TRUE
   bind_rows() -> allemapperPfams
 
 save(allemapperPfams,file = "allemapperPfams.Rdata")
-load("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allemapperPfams.Rdata")
+load("allemapperPfams.Rdata")
 dim(allemapperPfams)
 allemapperPfams %>%
   mutate(`#query`=str_replace(`#query`,".mRNA1","")) -> allemapperPfams
 allemapperPfams %>% head()
 ## dim(allemapperPfams) 4700000
 
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003//allCoreID.txt",
+read_delim("allCoreID.txt",
            delim = "\t",col_names = FALSE)%>%
   left_join(allemapperPfams,by=c("X1"="#query"))%>% 
   mutate(PFAMs=replace_na(PFAMs,"-")) %>% 
@@ -650,7 +650,7 @@ read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/2023
 
 965284/(965284+96545)
 
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allSoftCoreID.txt",
+read_delim("allSoftCoreID.txt",
            delim = "\t",col_names = FALSE)%>%
   left_join(allemapperPfams,by=c("X1"="#query"))%>% 
   mutate(PFAMs=replace_na(PFAMs,"-")) %>% 
@@ -662,7 +662,7 @@ read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/2023
 ## 2331130   481700
 2331130/(2331130+481700)
 
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allDispensableID.txt",
+read_delim("allDispensableID.txt",
            delim = "\t",col_names = FALSE)%>%
   left_join(allemapperPfams,by=c("X1"="#query"))%>% 
   mutate(PFAMs=replace_na(PFAMs,"-")) %>% 
@@ -674,7 +674,7 @@ read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/2023
 ## 868463   763608
 
 868463/(868463+763608)
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allPrivatePepID.txt",
+read_delim("allPrivatePepID.txt",
            delim = "\t",col_names = FALSE)%>%
   left_join(allemapperPfams,by=c("X1"="#query"))%>% 
   mutate(PFAMs=replace_na(PFAMs,"-")) %>% 
@@ -710,7 +710,7 @@ data.frame(nodomain=c(96545,481700,763608,759),
 p08
 
 ###p09是核苷酸多样性的图
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/nucleotide_diversity.txt",
+read_delim("nucleotide_diversity.txt",
            delim = "\t") %>% 
   mutate(x=factor(x,levels = c("Core","SoftCore","Dispensable","Private"))) %>% 
   ggplot(aes(x=x,y=log10(y)))+
@@ -741,7 +741,7 @@ p09
 
 ### p10是Ka/Ks的箱线图
 #bind_rows(private.kaks,dispen.kaks,softcore.kaks,core.kaks) %>% 
-load("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/kaks01.Rdata")
+load("kaks01.Rdata")
 colnames(kaks01)<-c("Ka/Ks","Class")  
 kaks01 %>% 
   filter(`Ka/Ks`<=2) %>% 
@@ -768,14 +768,14 @@ kaks01 %>%
 
 p10
 
-pdf(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/plot04.pdf",
+pdf(file = "plot04.pdf",
     width = 8,height = 8)
 p07.2+p08+p09+p10+
   plot_layout(ncol=2)
 dev.off()
 ### 计算核苷酸多样性
 
-save(orthogroups,freq.df,file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/orthogroups_freq_df.Rdata")
+save(orthogroups,freq.df,file = "orthogroups_freq_df.Rdata")
 bind_cols(orthogroups,freq.df) %>% 
   #mutate(X1=str_count(V127,"mRNA1")) %>% 
   #filter(X1>=2) %>% 
@@ -795,7 +795,7 @@ for (i in 1:length(core.family.ids)){
     pull(value) %>% 
     str_split(pattern = ", ") %>% 
     unlist() %>% 
-    write_lines(paste0("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/geneIDS/Core/",
+    write_lines(paste0("geneIDS/Core/",
                        core.family.ids[i],".txt"))
     
 }  
@@ -820,7 +820,7 @@ for (i in 1:length(softcore.family.ids)){
     pull(value) %>% 
     str_split(pattern = ", ") %>% 
     unlist() %>% 
-    write_lines(paste0("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/geneIDS/SoftCore/",
+    write_lines(paste0("geneIDS/SoftCore/",
                        softcore.family.ids[i],".txt"))
   
 }  
@@ -844,7 +844,7 @@ for (i in 1:length(dispensable.family.ids)){
     pull(value) %>% 
     str_split(pattern = ", ") %>% 
     unlist() %>% 
-    write_lines(paste0("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/geneIDS/Dispensable/",
+    write_lines(paste0("geneIDS/Dispensable/",
                        dispensable.family.ids[i],".txt"))
   
 } 
@@ -868,7 +868,7 @@ for (i in 1:length(private.family.ids)){
     pull(value) %>% 
     str_split(pattern = ", ") %>% 
     unlist() %>% 
-    write_lines(paste0("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/geneIDS/Private/",
+    write_lines(paste0("geneIDS/Private/",
                        private.family.ids[i],".txt"))
   
 } 
@@ -918,7 +918,7 @@ bind_rows(data.frame(y=core.pai,x="Core"),
 
 save(panGeneFamily.nucleotide.diversity,file="panGenefamilyNucleotideDiversity.Rdata")
 
-#load("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/panGenefamilyNucleotideDiversity.Rdata")
+#load("panGenefamilyNucleotideDiversity.Rdata")
 
 
 
@@ -934,72 +934,6 @@ plot_grid(p.row1,p.row2,p.row3,
           rel_heights = c(1,2,1))
 dev.off()
 
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/kaks/private.kaks.txt",
-           delim = "\t") %>% 
-  select(`Ka/Ks`) %>% 
-  mutate(Class="Private") %>% 
-  na.omit()  -> private.kaks
-
-private.kaks
-
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/kaks/dispen.kaks.txt",
-           delim = "\t") %>% 
-  select(`Ka/Ks`) %>% 
-  mutate(Class="Dispensable") %>% 
-  na.omit()  -> dispen.kaks
-
-dispen.kaks
-
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/kaks/softcore.kaks.txt",
-           delim = "\t") %>% 
-  select(`Ka/Ks`) %>% 
-  mutate(Class="SoftCore") %>% 
-  na.omit()  -> softcore.kaks
-
-softcore.kaks
-
-
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/kaks/core.kaks.txt",
-           delim = "\t") %>% 
-  select(`Ka/Ks`) %>% 
-  mutate(Class="Core") %>% 
-  na.omit()  -> core.kaks
-
-private.kaks
-
-### 不同类别的基因家族的表达，先用CBM的基因试试
-
-ck.exp<-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/RNAseq/secondBatchReanalysis/ckTPM.txt",
-                   delim = "\t") %>% 
-  pivot_longer(!gene_id)
-ck.exp
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allCoreID.txt",
-           col_names = FALSE,delim = "\t") %>% 
-  filter(str_detect(X1,"CBM1")) %>% 
-  mutate(X2="Core") -> df.core
-
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allSoftCoreID.txt",
-           col_names = FALSE,delim = "\t") %>% 
-  filter(str_detect(X1,"CBM1")) %>% 
-  mutate(X2="SoftCore") -> df.softcore
-
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allDispensableID.txt",
-           col_names = FALSE,delim = "\t") %>% 
-  filter(str_detect(X1,"CBM1")) %>% 
-  mutate(X2="Dispensable") -> df.dispensable
-
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230921.remove.V003/allPrivatePepID.txt",
-           col_names = FALSE,delim = "\t") %>% 
-  filter(str_detect(X1,"CBM1")) %>% 
-  mutate(X2="Private") -> df.private
-
-bind_rows(df.core,df.softcore,df.dispensable,df.private) %>% 
-  right_join(ck.exp,by=c("X1"="gene_id")) %>%
-  na.omit() %>% 
-  mutate(X2=factor(X2,levels = c("Core","SoftCore","Dispensable","Private"))) -> CoreSoftCoreDispenPrivate.exp
-  
-save(CoreSoftCoreDispenPrivate.exp,
-     file = "grape/CoreSoftCoreDispenPrivate.Rdata")
   
 
 
@@ -1081,314 +1015,3 @@ convertSVG("chromosome.svg", device = "png",width = 10,height = 8,dpi = 300)
 convertSVG("chromosome.svg", device = "pdf",width = 8,height = 4)
 
 
-### 还缺KaKs的图
-### 还缺GO富集的图
-### KEGG富集 结构域富集
-## all samples private
-orthogroups<-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/Orthogroups.tsv",
-                        delim = "\t") %>% 
-  select(Orthogroup,contains("V"))
-
-bind_cols(orthogroups,freq.df) %>% head() %>% DT::datatable()
-
-bind_cols(orthogroups,freq.df) %>% head()
-#mutate(X1=str_count(V127,"mRNA1")) %>% 
-#filter(X1>=2) %>% 
-filter(Class=="Private") %>% 
-  #select(V127_hap1,V127_hap2) %>% 
-  mutate(new_col=paste(V127_hap1,V127_hap2,sep=", ") %>% str_replace_all(", ","\t")) %>% 
-  select(new_col) %>% 
-  filter(new_col != "NA\tNA") %>% 
-  mutate(new_col=str_replace(new_col,"NA\t",""))%>% 
-  mutate(new_col=str_replace(new_col,"\tNA","")) %>% 
-  write_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/private.txt",
-              delim = "\t",
-              col_names = FALSE,
-              quote = "none")
-
-bind_cols(orthogroups,freq.df) %>% 
-  #mutate(X1=str_count(V127,"mRNA1")) %>% 
-  #filter(X1>=2) %>% 
-  filter(Class=="Core") %>% 
-  #select(V127_hap1,V127_hap2) %>% 
-  mutate(new_col=paste(V127_hap1,V127_hap2,sep=", ") %>% str_replace_all(", ","\t")) %>% 
-  select(new_col) %>% 
-  filter(new_col != "NA\tNA") %>% 
-  mutate(new_col=str_replace(new_col,"NA\t",""))%>% 
-  mutate(new_col=str_replace(new_col,"\tNA","")) %>% 
-  write_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/core.txt",
-              delim = "\t",
-              col_names = FALSE,
-              quote = "none")
-
-bind_cols(orthogroups,freq.df) %>% 
-  #mutate(X1=str_count(V127,"mRNA1")) %>% 
-  #filter(X1>=2) %>% 
-  filter(Class=="SoftCore") %>% 
-  #select(V127_hap1,V127_hap2) %>% 
-  mutate(new_col=paste(V127_hap1,V127_hap2,sep=", ") %>% str_replace_all(", ","\t")) %>% 
-  select(new_col) %>% 
-  filter(new_col != "NA\tNA") %>% 
-  mutate(new_col=str_replace(new_col,"NA\t",""))%>% 
-  mutate(new_col=str_replace(new_col,"\tNA","")) %>% 
-  write_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/softcore.txt",
-              delim = "\t",
-              col_names = FALSE,
-              quote = "none")
-
-bind_cols(orthogroups,freq.df) %>% 
-  #mutate(X1=str_count(V127,"mRNA1")) %>% 
-  #filter(X1>=2) %>% 
-  filter(Class=="Dispensable") %>% 
-  #select(V127_hap1,V127_hap2) %>% 
-  mutate(new_col=paste(V127_hap1,V127_hap2,sep=", ") %>% str_replace_all(", ","\t")) %>% 
-  select(new_col) %>% 
-  filter(new_col != "NA\tNA") %>% 
-  mutate(new_col=str_replace(new_col,"NA\t",""))%>% 
-  mutate(new_col=str_replace(new_col,"\tNA","")) %>% 
-  write_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/dispensable.txt",
-              delim = "\t",
-              col_names = FALSE,
-              quote = "none")
-
-# bind_cols(orthogroups,freq.df) %>% 
-#   mutate(X1=str_count(V127,"mRNA1")) %>% 
-#   filter(X1>=2) %>% 
-#   filter(Class=="Core") %>% 
-#   select(1,2) %>% 
-#   write_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/core.txt",
-#               delim = "\t",
-#               col_names = FALSE)
-# 
-# bind_cols(orthogroups,freq.df) %>% 
-#   mutate(X1=str_count(V127,"mRNA1")) %>% 
-#   filter(X1>=2) %>% 
-#   filter(Class=="SoftCore") %>% 
-#   select(1,2) %>% 
-#   write_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/softcore.txt",
-#               delim = "\t",
-#               col_names = FALSE)
-# 
-# bind_cols(orthogroups,freq.df) %>% 
-#   mutate(X1=str_count(V127,"mRNA1")) %>% 
-#   filter(X1>=2) %>% 
-#   filter(Class=="Dispensable") %>% 
-#   select(1,2) %>% 
-#   write_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/dispensable.txt",
-#               delim = "\t",
-#               col_names = FALSE)
-# 
-# 
-# bind_cols(orthogroups,freq.df) %>%
-#   filter(Class=="Core") %>% 
-#   pull(V127) %>% 
-#   str_split(", ") %>% unlist() %>% 
-#   write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/CoreGeneID.txt")
-# 
-# bind_cols(orthogroups,freq.df) %>%
-#   filter(Class=="SoftCore") %>% 
-#   pull(V127) %>% 
-#   str_split(", ") %>% unlist() %>% 
-#   write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/SoftCoreGeneID.txt")
-# 
-# bind_cols(orthogroups,freq.df) %>%
-#   filter(Class=="Dispensable") %>% 
-#   pull(V127) %>% 
-#   str_split(", ") %>% unlist() %>% 
-#   write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/DispensableGeneID.txt")
-# 
-# bind_cols(orthogroups,freq.df) %>%
-#   filter(Class=="Private") %>% 
-#   pull(V127) %>% 
-#   str_split(", ") %>% unlist() %>% 
-#   write_lines(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/PrivateGeneID.txt")
-
-
-## GO富集分析
-## 以下代码在linux下使用，win系统下为啥报错暂时没有想明白
-
-# library(tidyverse, quietly = TRUE)
-# library(formattable, quietly = TRUE)
-# #BiocManager::install("AnnotationForge")
-# library(AnnotationForge, quietly = TRUE)
-# library(seqinr, quietly = TRUE)
-# library(clusterProfiler, quietly = TRUE)
-# 
-# emapper <- read_delim("D:/Jupyter/IAAS/grape/gwas/cbmEggnog.emapper.annotations", 
-#                       "\t", escape_double = FALSE, col_names = FALSE, 
-#                       comment = "#", trim_ws = TRUE) %>%
-#   dplyr::select(GID = X1, 
-#                 COG = X7,
-#                 Gene_Name = X8,
-#                 Gene_Symbol = X9,
-#                 GO = X10,
-#                 KO = X12,
-#                 Pathway = X13
-#   )
-# 
-# gene_info <- dplyr::select(emapper,  GID, Gene_Name) %>%
-#   dplyr::filter(!is.na(Gene_Name)) %>%
-#   dplyr::filter(Gene_Name != '-') 
-# eggnog_anno <- length(gene_info$GID)
-# 
-# 
-# gene2go <- dplyr::select(emapper, GID, GO) %>%
-#   separate_rows(GO, sep = ',', convert = F) %>%
-#   filter(!is.na(GO)) %>%
-#   filter(str_detect(GO, '^GO')) %>%
-#   mutate(EVIDENCE = 'IEA') 
-# 
-# 
-# makeOrgPackage(gene_info=gene_info,
-#                go=gene2go,
-#                maintainer='MingYan <mingyan24@126.com>',
-#                author='MingYan',
-#                outputDir="./",
-#                tax_id=29760,
-#                genus='V',
-#                species='v',
-#                goTable="go",
-#                version="1.0")
-# 
-# pkgbuild::build('./org.Vv.eg.db', dest_path = ".")
-
-# geneid<-read_lines("CoreGeneID.txt")
-# ego<-enrichGO(gene = geneid,OrgDb = org.Vv.eg.db::org.Vv.eg.db,keyType = 'GID',ont = "ALL",qvalueCutoff = 0.05,pvalueCutoff = 0.05)
-# save(ego,file = "ego.Rdata")
-#BiocManager::install("AnnotationDbi")
-
-# library(clusterProfiler)
-# 
-# ?enricher
-# 
-# library(AnnotationHub)
-# ah <- AnnotationHub()
-# vv<-ah[["AH108013"]]
-core_ego<-enrichGO(gene = geneid,
-                   OrgDb = vv,
-                   keyType = 'ENTREZID',
-                   ont = "ALL",
-                   qvalueCutoff = 0.05,
-                   pvalueCutoff = 0.05)
-load("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/core_ego.Rdata")
-
-data.frame(core_ego) %>% 
-  select(-geneID)
-dotplot(core_ego)+
-  labs(title="Core") -> p06
-
-load("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/softcore_ego.Rdata")
-
-data.frame(softcore_ego)
-dotplot(softcore_ego) +
-  labs(title="SoftCore")-> p07
-
-load("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/dispen_ego.Rdata")
-
-data.frame(dispen_ego)
-dotplot(dispen_ego)+
-  labs(title="Dispensable") -> p08
-
-pdf(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/plot03.pdf",
-    width = 12,height = 8)
-p06+p07+p08+
-  plot_layout(nrow = 2)
-dev.off()
-### KaKs
-
-
-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/private_kaks/CBM1chr13G019100.mRNA1-CBM1chr15G000090.mRNA1-CBM1chr15G000180.mRNA1-CBM1chr15G000220.mRNA1-CBM1chr15G000320.mRNA1-CBM1chr15G000380.mRNA1.cds_aln.kaks",
-           delim = "\t") %>% 
-  select(`Ka/Ks`)
-
-list.files("private.kaks",
-           pattern = "*.kaks",
-           full.names = TRUE) %>% 
-  map(read_delim,delim="\t",show_col_types=FALSE,progress=FALSE) %>% 
-  bind_rows() %>% 
-  select(`Ka/Ks`) %>% 
-  mutate(Class="private") -> private.kaks
-
-
-list.files("core.kaks/",
-           pattern = "*.kaks",
-           full.names = TRUE) %>% 
-  map(read_delim,delim="\t",show_col_types=FALSE,progress=FALSE) %>% 
-  bind_rows() %>% 
-  select(`Ka/Ks`) %>% 
-  mutate(Class="core") -> core.kaks
-
-core.kaks
-
-list.files("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/softcore_kaks/",
-           pattern = "*.kaks",
-           full.names = TRUE) %>% 
-  map(read_delim,delim="\t",show_col_types=FALSE,progress=FALSE) %>% 
-  bind_rows() %>% 
-  select(`Ka/Ks`) %>% 
-  mutate(Class="softcore") -> softcore.kaks
-
-softcore.kaks
-
-list.files("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/dispensable_kaks/",
-           pattern = "*.kaks",
-           full.names = TRUE) %>% 
-  map(read_delim,delim="\t",show_col_types=FALSE,progress=FALSE) %>% 
-  bind_rows() %>% 
-  select(`Ka/Ks`) %>% 
-  mutate(Class="dispensable") -> dispensable.kaks
-
-dispensable.kaks
-
-
-p09<-bind_rows(private.kaks,core.kaks,softcore.kaks,dispensable.kaks) %>% 
-  mutate(Class=factor(Class,levels = c("core","softcore","dispensable","private"))) %>% 
-  ggplot(aes(x=Class,y=`Ka/Ks`))+
-  geom_boxplot(aes(fill=Class),
-               outlier.alpha = 0)+
-  ylim(NA,1.5)+
-  theme_bw()+
-  theme(panel.grid = element_blank(),
-        legend.position = "none")
-
-## diversity
-
-library(tidyverse)
-library(pegas)
-
-myfun<-function(x){return(nuc.div(read.dna(x,format = "fasta")))}
-list.files("private.fasta/",pattern = "*.fasta",full.names = TRUE)%>%map(myfun)%>%unlist() -> private.div
-list.files("core.fasta/",pattern = "*.fasta",full.names = TRUE)%>%map(myfun)%>%unlist() -> core.div
-list.files("softcore.fasta/",pattern = "*.fasta",full.names = TRUE)%>%map(myfun)%>%unlist() -> softcore.div
-list.files("dispensable.fasta/",pattern = "*.fasta",full.names = TRUE)%>%map(myfun)%>%unlist() -> dispen.div
-
-bind_rows(data.frame(div=private.div,group="private"),
-          data.frame(div=core.div,group="core"),
-          data.frame(div=softcore.div,group="softcore"),
-          data.frame(div=dispen.div,group="dispensable")) %>% 
-  write_delim(file = "nucle_diversity.txt",delim = "\t")
-
-nuc_div<-read_delim("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/20230815.use.all.hap/nucle_diversity.txt",
-                    delim = "\t")
-nuc_div %>% 
-  mutate(y=factor(group,levels = c("core","softcore","dispensable","private")))
-nuc_div %>% pull(group) %>% table()
-
-p10<-ggplot(data=nuc_div%>% 
-              mutate(group=factor(group,levels = c("core","softcore","dispensable","private"))) %>% 
-              filter(div>0),
-            aes(x=group,y=div))+
-  geom_boxplot(aes(fill=group),outlier.alpha = 0)+
-  theme_bw()+
-  theme(panel.grid = element_blank())+
-  labs(x="Class",y="Nucleotide diversity")+
-  theme(legend.title = element_blank(),
-        legend.position = "none")
-
-p10
-
-
-pdf(file = "D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/PanGeneFamily/plot04.pdf",
-    width = 8,height = 6)
-p10+p09
-dev.off()

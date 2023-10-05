@@ -1,0 +1,7 @@
+raw_fq:
+  r1: "/data/yewx/grape_new/Zhengzhou_transcriptome_samples_of_the_first_batch/clean/{sample}_1.fq.gz"
+  r2: "/data/yewx/grape_new/Zhengzhou_transcriptome_samples_of_the_first_batch/clean/{sample}_2.fq.gz"
+
+reference:
+  fa: "/data/wangj/myan/grape/06.sv.gwas/00.T2T.reference/ref/CBM.hap1.final.fa"
+  gtf: "/data/wangj/myan/grape/06.sv.gwas/00.T2T.reference/ref/V127_CBM.hap1.gff"

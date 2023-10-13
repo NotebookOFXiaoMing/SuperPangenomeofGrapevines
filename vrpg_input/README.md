@@ -1,4 +1,4 @@
-prepare gfa file
+prepare gfa file https://github.com/codeatcg/VRPG/tree/main
 
 ```
 pip install Django==3.2.4  pybind11 -i https://pypi.tuna.tsinghua.edu.cn/simple

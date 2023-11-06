@@ -1,0 +1,8 @@
+ref:
+  "/data/myan/raw_data/practice/svpan.pipeline/00.ref/An1.fa"
+fai:
+  "/data/myan/raw_data/practice/svpan.pipeline/00.ref/An1.fa.fai"
+qrys:
+  "/data/myan/raw_data/practice/svpan.pipeline/00.qrys/{sample}.fa"
+graph_prefix:
+  "atSV"

@@ -16,7 +16,7 @@ rule all:
         "06.merged.vcf/merged.InsDel.vcf",
         "06.merged.vcf/merged.InsDel.filter.vcf",
         "06.merged.vcf/merged.InsDel.filter.sorted.vcf.gz",
-        config['graph_prefix'] + ".gbz",
+        config['graph_prefix'] + "giraffe.gbz",
 
 
 rule minimap2:
@@ -207,7 +207,7 @@ rule vgautoindex:
         ref = config['ref'],
         vcf = rules.bcftools_sort.output.vcf
     output:
-        gbz = config['graph_prefix'] + ".gbz",
+        gbz = config['graph_prefix'] + "giraffe.gbz",
         dist = config['graph_prefix'] + ".dist",
         min = config['graph_prefix'] + ".min"
     threads:

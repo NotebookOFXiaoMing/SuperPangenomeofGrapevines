@@ -1,0 +1,10 @@
+r1:
+  "/data/myan/raw_data/practice/svpan.pipeline/illumina.reads/{sample}_r1.fq"
+r2:
+  "/data/myan/raw_data/practice/svpan.pipeline/illumina.reads/{sample}_r2.fq"
+gbz:
+  "/data/myan/raw_data/practice/svpan.pipeline/atSV.giraffe.gbz"
+min:
+  "/data/myan/raw_data/practice/svpan.pipeline/atSV.min"
+dist:
+  "/data/myan/raw_data/practice/svpan.pipeline/atSV.dist"

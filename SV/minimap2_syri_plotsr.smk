@@ -198,7 +198,7 @@ rule bcftools_sort:
         mem_mb = 24000
     shell:
         """
-        /home/myan/biotools/software.package/bcftools-1.17/bcftools sort {input} -O z -o {output.vcf}
+        bcftools sort {input} -O z -o {output.vcf}
         tabix {output.vcf}
         """
 

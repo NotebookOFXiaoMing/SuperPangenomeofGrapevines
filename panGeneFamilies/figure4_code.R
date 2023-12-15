@@ -11,7 +11,7 @@ library(ggh4x)
 library(readxl)
 sum(c(3914,12442,33696,464))
 sum(c(8223,9252,45988,1054))
-setwd("D:/Jupyter/IAAS/grape/回复审稿意见01/")
+
 
 dat<-read_delim("Orthogroups.GeneCount.tsv",
                 delim = "\t",

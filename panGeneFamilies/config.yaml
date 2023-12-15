@@ -1,4 +1,4 @@
-pep:
-  "/data/wangj/myan/grape/14.panGeneFamilies.remove.V003/00.all.peps/{sample_pep}_hap1.fa"
-ref:
-  "/data/wangj/myan/grape/14.panGeneFamilies.remove.V003/20231201.reanalysis/01.redo/finalfna/{sample_genome}.{hap}.fna"
+input_folder:
+  ""
+output_folder:
+  ""

@@ -63,3 +63,17 @@ exp.df.filter.quant.norm %>%
 conda activate R35
 Rscript run_peer.R exp.df.filter.quant.norm.tsv peerFactors.tsv
 ```
+
+```
+read_tsv("peerFactors.tsv") %>% 
+  as.data.frame()-> peerFactors
+rownames(peerFactors)<-paste0("PEER",1:20)
+read_tsv("snp.PCA.eigenvec") %>% 
+  select(-2,-3) %>% 
+  column_to_rownames("SampleName") %>% 
+  t() %>% 
+  as.data.frame() %>% 
+  bind_rows(peerFactors) %>% 
+  rownames_to_column() %>% 
+  write_tsv("covariates.tsv")
+```

@@ -77,3 +77,41 @@ read_tsv("snp.PCA.eigenvec") %>%
   rownames_to_column() %>% 
   write_tsv("covariates.tsv")
 ```
+
+# SV
+
+```
+vcftools --gzvcf merged.vgCall.vcf.gz --keep ../../22.SNPeQTL/113samples.id --minDP 3 --maf 0.05 --max-missing 0.8 --min-alleles 2 --max-alleles 2 --recode --recode-INFO-all --out merged.vgCall.filtered
+## kept 51998 out of a possible 114672 Sites
+
+beagle gt=merged.vgCall.filtered.recode.vcf nthreads=24 out=merged.vgCall.filtered.impute
+bgzip -d merged.vgCall.filtered.impute.vcf.gz
+python convertVcfTo012Matrix.py merged.vgCall.filtered.impute.vcf merged.vgCall.filtered.impute.012.matrix SV
+
+python editSVvcf.py merged.vgCall.filtered.impute.vcf merged.vgCall.filtered.impute.edited.vcf
+~/my_data/myan/biotools/VCF2PCACluster-1.40/bin/VCF2PCACluster -InVCF merged.vgCall.filtered.impute.edited.vcf -OutPut sv.PCA
+
+## merge PCA and PEER factors
+
+read_tsv("peerFactors.tsv") %>% 
+  as.data.frame()-> peerFactors
+rownames(peerFactors)<-paste0("PEER",1:20)
+read_tsv("sv.PCA.eigenvec") %>% 
+  select(-2,-3) %>% 
+  column_to_rownames("SampleName") %>% 
+  t() %>% 
+  as.data.frame() %>% 
+  bind_rows(peerFactors) %>% 
+  rownames_to_column() %>% 
+  write_tsv("sv.covariates.tsv")
+
+## adjust sample order
+read_tsv("merged.vgCall.filtered.impute.012.matrix") %>% 
+  select(c("snpid",read_lines("113samples.id"))) %>% 
+  write_tsv("merged.vgCall.filtered.impute.sorted.012.matrix")
+
+## SV eqtl
+
+cat merged.vgCall.filtered.impute.vcf | grep -v "#" | awk '{print $1"_"$2"_SV\t"$1"\t"$2}' > svPos.txt
+Rscript ../../22.SNPeQTL/eqtl/run_matrixEqtl.R merged.vgCall.filtered.impute.sorted.012.matrix ../../22.SNPeQTL/eqtl/exp.df.filter.quant.norm.tsv sv.covariates.tsv svPos.txt ../../22.SNPeQTL/eqtl/genePos.tsv
+```

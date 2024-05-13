@@ -83,6 +83,9 @@ read_tsv("snp.PCA.eigenvec") %>%
 ```
 vcftools --gzvcf merged.vgCall.vcf.gz --keep ../../22.SNPeQTL/113samples.id --minDP 3 --maf 0.05 --max-missing 0.8 --min-alleles 2 --max-alleles 2 --recode --recode-INFO-all --out merged.vgCall.filtered
 ## kept 51998 out of a possible 114672 Sites
+~/my_data/myan/biotools/PopLDdecay-3.42/bin/PopLDdecay -InVCF merged.vgCall.filtered.recode.edited.vcf -OutStat LDdecay
+perl ~/my_data/myan/biotools/PopLDdecay-3.42/bin/Plot_OnePop.pl -inFile LDdecay.stat.gz -output svFig
+
 
 beagle gt=merged.vgCall.filtered.recode.vcf nthreads=24 out=merged.vgCall.filtered.impute
 bgzip -d merged.vgCall.filtered.impute.vcf.gz

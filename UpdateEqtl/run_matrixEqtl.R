@@ -44,21 +44,22 @@ genepos = read.table(gene_location_file_name, header = TRUE, stringsAsFactors = 
 
 
 cisDist<-5000
-pvOutputThreshold_cis<-0.1
-pvOutputThreshold_tra<-0.00000000001
+pvOutputThreshold_cis<-0.01
+pvOutputThreshold_tra<-0
 
 errorCovariance<-numeric()
 
 useModel<-modelLINEAR
 
-output_file_name_cis = tempfile();
-output_file_name_tra = tempfile();
+output_file_name_cis = "cisEQTL.output";
+#output_file_name_tra = tempfile();
 
+save(snps,gene,cvrt,snpspos,genepos,file = "eQTL.input.Rdata")
 me = Matrix_eQTL_main(
   snps = snps,
   gene = gene,
   cvrt = cvrt,
-  output_file_name     = output_file_name_tra,
+  #output_file_name     = output_file_name_tra,
   pvOutputThreshold     = pvOutputThreshold_tra,
   useModel = useModel,
   errorCovariance = errorCovariance,
@@ -73,7 +74,7 @@ me = Matrix_eQTL_main(
   noFDRsaveMemory = FALSE);
 
 
-unlink(output_file_name_tra);
-unlink(output_file_name_cis);
+# unlink(output_file_name_tra);
+# unlink(output_file_name_cis);
 
 save(me,file = "me.Rdata")

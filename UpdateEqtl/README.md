@@ -121,5 +121,75 @@ Rscript ../../22.SNPeQTL/eqtl/run_matrixEqtl.R merged.vgCall.filtered.impute.sor
 ```
 grep "contig" merged.vgCall.filtered.recode.vcf | awk 'gsub("##contig=<ID=","")' | awk 'gsub("length=","")' | awk 'gsub(">","")' > chr.len
 
+library(tidyverse)
+library(ggrastr)
+
+path<-"D:/abc"
+
+chr.len<-read_csv(paste0(path,"chr.len"),col_names =FALSE) %>% 
+  mutate(X2=X2+5000000) %>% 
+  arrange(X1) %>% 
+  rename("CHR"="X1",
+         "LEN"="X2")
+chr.len
+sv.gwas.results<-read_tsv(paste0(path,"SV.cisEQTL.output")) %>% 
+  mutate(CHR=str_extract(SNP,pattern = "chr[0-9]+"),
+         BP=str_extract(SNP,pattern = "_[0-9]+_") %>% 
+           str_replace_all("_","") %>% 
+           as.numeric(),
+         P=FDR) %>% 
+  select(CHR,BP,P) %>% 
+  arrange(CHR)
+
+snp.gwas.results<-read_tsv(paste0(path,"snp.cisEQTL.output")) %>% 
+  mutate(CHR=str_extract(SNP,pattern = "chr[0-9]+"),
+         BP=str_extract(SNP,pattern = "_[0-9]+_") %>% 
+           str_replace_all("_","") %>% 
+           as.numeric(),
+         P=FDR) %>% 
+  select(CHR,BP,P) %>% 
+  arrange(CHR)
+
+manhattanPlot<-function(){
+  chr.len %>% pull(LEN) %>% cumsum() -> x1
+  chr.len %>% pull(LEN) -> x2
+  head(x1,-1)
+  temp.df<-data.frame(chromo=chr.len %>% pull(CHR),
+                      chr_len=c(0,head(x1,-1)))
+  
+  
+  sv.gwas.results %>% 
+    left_join(temp.df,by=c("CHR"="chromo")) %>% 
+    mutate(new_pos=BP+chr_len) -> new.sv.gwas.results
+  
+  snp.gwas.results %>% 
+    left_join(temp.df,by=c("CHR"="chromo")) %>% 
+    mutate(new_pos=BP+chr_len) -> new.snp.gwas.results
+  
+  
+  cols<-c("#bdbadb","#fdb363","#f98177","#80b3d4","gray")
+  p<-ggplot()+
+    geom_point_rast(data=new.snp.gwas.results,
+                    aes(x=new_pos,y=-log10(P),color=CHR),show.legend = FALSE,
+                    shape=16,color="gray",alpha=0.7)+
+    geom_point_rast(data=new.sv.gwas.results,
+                    aes(x=new_pos,y=-log10(P),color=CHR),show.legend = FALSE,
+                    shape=17,color="red",alpha=0.7)+
+    scale_x_continuous(breaks =c(0,head(x1,-1)) + x2/2 ,
+                       labels =temp.df %>% pull(chromo))+
+    theme_bw()+
+    theme(panel.grid = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line())+
+    #scale_color_manual(values = rep(cols,5))+
+    scale_y_continuous(expand = expansion(mult = c(0,0)),
+                       limits = c(0,40))+
+    labs(x=NULL)
+  return(p)
+}
+
+pdf("gwas_man01.pdf",width = 16,height = 8)
+manhattanPlot()
+dev.off()
 
 ```

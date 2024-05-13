@@ -115,3 +115,11 @@ read_tsv("merged.vgCall.filtered.impute.012.matrix") %>%
 cat merged.vgCall.filtered.impute.vcf | grep -v "#" | awk '{print $1"_"$2"_SV\t"$1"\t"$2}' > svPos.txt
 Rscript ../../22.SNPeQTL/eqtl/run_matrixEqtl.R merged.vgCall.filtered.impute.sorted.012.matrix ../../22.SNPeQTL/eqtl/exp.df.filter.quant.norm.tsv sv.covariates.tsv svPos.txt ../../22.SNPeQTL/eqtl/genePos.tsv
 ```
+
+# Manhattan Plot
+
+```
+grep "contig" merged.vgCall.filtered.recode.vcf | awk 'gsub("##contig=<ID=","")' | awk 'gsub("length=","")' | awk 'gsub(">","")' > chr.len
+
+
+```

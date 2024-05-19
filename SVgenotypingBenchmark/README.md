@@ -15,3 +15,9 @@ snakemake -s vgautoindex.smk --cores 128 -pn
 ```
 snakemake -s vgGiraffePackCall.smk --cores 128 -pn
 ```
+
+# paragraph genotyping
+
+```
+
+```

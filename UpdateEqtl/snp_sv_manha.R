@@ -1,4 +1,4 @@
-setwd("D:/Jupyter/IAAS/grape/20230726.reanalysis/scripts/RNAseq/secondBatchReanalysis/SNP_SV_NG第一次审稿意见的结果/")
+
 library(tidyverse)
 library(ggrastr)
 chr.len<-read_csv("manhaPlot/chr.len",col_names = FALSE) %>% 
